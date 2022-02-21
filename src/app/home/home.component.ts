@@ -21,15 +21,28 @@ export class HomeComponent implements OnInit, OnDestroy {
         let count = 0;
       setInterval(() =>{
                observer.next(count); //1
+
+               if(count == 2){
+                observer.complete(); //3
+               }
+
+               if(count > 3){
+                 observer.error(new Error('Invalid number !!!')); //2
+               }
                count++;
-               //observer.error(); //2
-               //observer.complete(); //3
+              
+               
         }, 1000);
     });
 
-    this.subscription = customIntervalObservable.subscribe((count) => {
+    this.subscription = customIntervalObservable.subscribe(count => {
       console.log(count);
-    })
+    }, error => { 
+      console.log(error);
+      alert(error.message);
+    }, ()=>{
+      console.log('completed !!! ');
+    });
   }
 
   ngOnDestroy(){
