@@ -13,9 +13,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit() {
-    // this.subscription = interval(1000).subscribe((count) => {
-    //     console.log(count);
-    // })
 
     const customIntervalObservable = Observable.create((observer)=>{
     
@@ -34,17 +31,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         }, 1000);
     });
 
-    // customIntervalObservable.pipe(map((data: number) =>{
-    //     return 'Round:' + (data + 1);
-    // }));
-
   this.subscription = customIntervalObservable.pipe(filter(data => {
       return data < 0;
   }), map((data: number) =>{
       return 'Round:' + (data + 1);
   })).subscribe(count => {
       console.log(count);
-      // console.log('Round:' , (count + 1));
       }, error => { 
         console.log(error);
         alert(error.message);
